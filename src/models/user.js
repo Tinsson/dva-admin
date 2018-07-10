@@ -5,8 +5,8 @@ export default {
     namespace: 'user',
   
     state: {
-        userData: [],
-        total: 0,
+        userData: [], //用户列表
+        total: 0, 
         loading: false
     },
   
@@ -21,8 +21,7 @@ export default {
         yield put({type: 'set_loading', loading: true})
         const res = yield call(UserList, data);
         yield put({type: 'save', payload: {userData: res.data.list, total: res.data.total, loading: false}})
-
-      },
+      }
     },
   
     reducers: {
