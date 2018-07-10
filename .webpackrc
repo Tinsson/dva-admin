@@ -1,0 +1,16 @@
+{
+    "extraBabelPlugins": [
+        ["import", {
+            "libraryName": "antd",
+            "libraryDirectory": "es",
+            "style": true
+        }]
+    ],
+    "proxy": {
+        "/": {
+            "target": "http://tutortest.pgyxwd.com",
+            "changeOrigin": true,
+            "pathRewrite": { "^/" : "" }
+        }
+    }
+}
