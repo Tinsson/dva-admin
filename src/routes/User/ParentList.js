@@ -62,6 +62,11 @@ const filter = [{
       label: '家教',
       value: 2
     }]
+},{
+    label: '时间',
+    type: 'daterange',
+    placeholder: ['开始', '结束'],
+    range: ['start_time', 'end_time']
 }]
 let initPage = 1;
 let initSize = 20;

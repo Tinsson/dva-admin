@@ -3,6 +3,7 @@ import { Card, Input, Select, DatePicker } from 'antd'
 import styles from './index.less'
 import PropTypes from 'prop-types'
 const Option = Select.Option;
+const RangePicker = DatePicker.RangePicker;
 
 class FilterCard extends Component{
     constructor(props){
@@ -14,6 +15,10 @@ class FilterCard extends Component{
             //注册属性
             if(val.model){
                 regState[val.model] = '';
+            }
+            if(val.range){
+                regState[val.range[0]] = '';
+                regState[val.range[1]] = '';
             }
 
             switch(val.type){
@@ -32,6 +37,11 @@ class FilterCard extends Component{
                 case 'date': //单日期选择框
                     item = (
                         <DatePicker placeholder={val.placeholder} onChange={this.onDatePicker.bind(this, val.model)}/>
+                    )
+                    break;
+                case 'daterange': //日期范围选择
+                    item = (
+                        <RangePicker placeholder={val.placeholder} onChange={this.onRangePicker.bind(this, val.range)} />
                     )
                     break;
                 default: 
@@ -70,6 +80,15 @@ class FilterCard extends Component{
         this.setState({
             [model]: dateString ? dateString : ''
         },()=>{
+            this.onSearch();
+        })
+    }
+
+    onRangePicker(range, date, dateString){
+        this.setState({
+            [range[0]]: dateString[0],
+            [range[1]]: dateString[1]
+        }, ()=>{
             this.onSearch();
         })
     }
