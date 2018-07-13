@@ -56,7 +56,7 @@ class MenuLayout extends Component{
         });
 
         return (
-            <Layout style={{height: '100%'}}>
+            <Layout style={{minHeight: '100%'}}>
                 <Sider width={200} collapsible collapsed={this.state.collapsed}>
                     <div className={styles.logo_box}>
                         
@@ -66,7 +66,7 @@ class MenuLayout extends Component{
                         theme="dark"
                         defaultSelectedKeys={[cur_path.split('/')[2]]}
                         defaultOpenKeys={[cur_path.split('/')[1]]}
-                        style={{ height: '100%', borderRight: 0 }}
+                        style={{ borderRight: 0 }}
                         >
                         {menuList}
                     </Menu>

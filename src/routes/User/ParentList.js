@@ -25,11 +25,6 @@ const filter = [{
       label: '家教',
       value: 2
     }]
-},{
-    label: '时间',
-    type: 'daterange',
-    placeholder: ['开始', '结束'],
-    range: ['start_time', 'end_time']
 }]
 let initPage = 1;
 let initSize = 20;
@@ -37,47 +32,14 @@ let initSize = 20;
 
 class ParentList extends Component {
 
-    state = {
-        page: initPage,
-        size: initSize
-    }
-
-    componentDidMount(){
-        this.props.getData({
-            page: this.state.page,
-            size: this.state.size
-        });
-        this.condition = {};
-        this.visible = false;
-    }
-
-    handleFilter(condition){
-        this.condition = condition;
-        this.setState({
+    constructor(props){
+        super();
+        this.state = {
             page: initPage,
             size: initSize
-        },()=>{
-            this.props.getData({
-                ...this.state,
-                ...condition
-            })
-        })
-    }
+        }
 
-    handleCurrentChange(page,size){
-        this.setState({
-            page,
-            size
-        },()=>{
-            this.props.getData({
-                ...this.state,
-                ...this.condition
-            });
-        });
-    }
-
-    render() {
-        const columns = [{
+        this.columns = [{
             title: '姓名',
             dataIndex: 'body_name'
         },{
@@ -138,14 +100,65 @@ class ParentList extends Component {
             title: '操作',
             dataIndex: 'operation',
             render: (op, record)=>{
-                this.props.openUserModal(record.id);
-                //console.log(record.id);
+
+                return (
+                    <div>
+                        <span className={styles.tableAction} onClick={this.handleCheck.bind(this, record.id, record.role)}>查看</span>
+                    </div>
+                )
+                
             }
         }];
+    }
+
+
+    componentDidMount(){
+        this.props.getData({
+            page: this.state.page,
+            size: this.state.size
+        });
+        this.condition = {};
+        this.visible = false;
+    }
+
+    handleCheck(id, role){
+        let payload = {
+            id,
+            role
+        }
+        this.props.openUserModal(payload);
+    }
+
+    handleFilter(condition){
+        this.condition = condition;
+        this.setState({
+            page: initPage,
+            size: initSize
+        },()=>{
+            this.props.getData({
+                ...this.state,
+                ...condition
+            })
+        })
+    }
+
+    handleCurrentChange(page,size){
+        this.setState({
+            page,
+            size
+        },()=>{
+            this.props.getData({
+                ...this.state,
+                ...this.condition
+            });
+        });
+    }
+
+    render() {
 
         let tableData = {
             size: 'small',
-            columns,
+            columns: this.columns,
             rowKey: 'id',
             loading: this.props.loading,
             dataSource: this.props.user,
@@ -158,7 +171,7 @@ class ParentList extends Component {
         }
         return (
             <div>
-                <UserModal />
+                <UserModal onRefresh={this.handleCheck.bind(this)}/>
                 <FilterCard filterList={filter} onFilter={this.handleFilter.bind(this)}/>
                 <TableCard extra={<div className={styles.extra}>总计：{this.props.total}</div>} 
                            tableData={tableData} />
@@ -180,8 +193,8 @@ let mapToDispatch = (dispatch)=>{
         getData(data){
             dispatch({type: 'user/init', data});
         },
-        openUserModal(id){
-            dispatch({type: 'user/init_panel', id})
+        openUserModal(payload){
+            dispatch({type: 'global/checkUser', payload})
         }
     }
 }

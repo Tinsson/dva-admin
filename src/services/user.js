@@ -7,3 +7,17 @@ export function UserList(params) {
         body: params
     });
 }
+
+export function TutorPanel(params){
+    return request('/backend/user/tutor-panel', {
+        method: 'GET',
+        body: params
+    });
+}
+
+export function LearnPanel(params){
+    return request('/backend/user/learn-panel', {
+        method: 'GET',
+        body: params
+    });
+}

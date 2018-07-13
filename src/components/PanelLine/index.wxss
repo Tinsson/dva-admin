@@ -1,0 +1,31 @@
+.infoArea {
+  padding: 0 30px;
+}
+.infoArea .singleLine {
+  padding-top: 10px;
+  border-bottom: 1px solid #eee;
+}
+.infoArea .singleLine .label {
+  font-size: 16px;
+  line-height: 25px;
+}
+.infoArea .singleLine .cross {
+  display: flex;
+  flex-direction: row;
+}
+.infoArea .singleLine .value {
+  font-size: 12px;
+  min-height: 45px;
+  line-height: 20px;
+  padding: 15px 0;
+}
+.infoArea .singleLine .value .line {
+  line-height: 25px;
+}
+.infoArea .singleLine .value .num {
+  font-size: 16px;
+  color: #f74c17;
+}
+.infoArea .singleLine .value.long {
+  padding: 5px 0;
+}
