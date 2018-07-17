@@ -8,7 +8,8 @@ export default function authLogin(){
             menu = localStorage.getItem('menu');
         return {
             menu,
-            cur_path
+            cur_path,
+            token
         };
         
     }else{

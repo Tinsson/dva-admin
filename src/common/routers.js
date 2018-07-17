@@ -15,6 +15,10 @@ export default function allRouters(app){
             name: '用户列表',
             component: dynamicWrap(app, ['user'], () => import('../routes/User/ParentList'))
         },
+        '/user/firstClass': {
+            name: '课程列表',
+            component: dynamicWrap(app, ['user'], () => import('../routes/User/ClassList'))
+        },
         '/verify/edu-list': {
             name: '学历审核列表',
             component: dynamicWrap(app, ['verify'], () => import('../routes/Verify/EduList'))

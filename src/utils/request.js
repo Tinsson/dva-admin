@@ -1,5 +1,5 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import { message, notification } from 'antd';
 import store from '../index'
 import qs from 'qs';
 
@@ -91,10 +91,11 @@ export default function request(url, options) {
       }
       return response.json().then(d=>{
         if(d.status === 0){
-          notification.error({
-            message: '网络错误',
-            description: d.message
-          });
+          // notification.error({
+          //   message: '网络错误',
+          //   description: d.message
+          // });
+          message.error(d.message);
           if(d.code === 20004){
             dispatch({
               type: 'frame/logout',

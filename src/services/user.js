@@ -21,3 +21,10 @@ export function LearnPanel(params){
         body: params
     });
 }
+
+export function ClassList(params){
+    return request('/backend/classlog/lists', {
+        method: 'GET',
+        body: params
+    });
+}

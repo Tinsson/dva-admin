@@ -6,10 +6,17 @@ import { connect } from 'dva'
 
 class MenuRoute extends Component{
 
+    constructor(props){
+        super();
+        props.onSetCurPath(props.path);
+    }
+
+
     render(){
         let { component: Component, ...rest} = this.props;
         return (
             <Route {...rest} render={props=>{
+
                 if(rest.all_urls.includes(rest.path)){
                     return (
                         <MenuLayout path={rest.path} menu={rest.menu}>
@@ -33,5 +40,14 @@ let mapToState = (state)=>{
     }
 }
 
-export default connect(mapToState)(MenuRoute);
+let mapToDispatch = (dispatch) => {
+    return {
+        onSetCurPath: (path)=>{
+            console.log(path);
+            dispatch({type: 'frame/set_cur', path})
+        }
+    }
+}
+
+export default connect(mapToState, mapToDispatch)(MenuRoute);
 

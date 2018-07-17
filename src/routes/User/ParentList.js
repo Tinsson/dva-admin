@@ -14,6 +14,11 @@ const filter = [{
     placeholder: '输入姓名',
     model: 'body_name'
 },{
+    label: '城市',
+    type: 'input',
+    placeholder: '请输入城市名',
+    model: 'city'
+},{
     label: '客户角色',
     type: 'select',
     placeholder: '请选择类型',

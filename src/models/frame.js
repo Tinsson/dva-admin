@@ -2,7 +2,6 @@
  import { setAuth, removeAuth } from '../utils/authority'
  import authLogin from '../utils/authority'
  import { routerRedux } from 'dva/router'
- import { message } from 'antd'
 
 export default {
 
@@ -10,6 +9,7 @@ export default {
   
     state: {
         beforePath: '',
+        cur_path: '/',
         menu: [],
         all_urls: [],
         token: ''
@@ -17,11 +17,12 @@ export default {
   
     subscriptions: {
       setup({ dispatch, history }) {  // eslint-disable-line
-        
-        if(authLogin()){
-          let menu = JSON.parse(authLogin().menu);
+        let auth = authLogin();
+        if(auth){
+          let menu = JSON.parse(auth.menu);
           dispatch({type: 'set_menu', menu});
-          
+          dispatch({type: 'set_token', token: JSON.parse(auth.token)})
+          dispatch({type: 'set_cur_model', path: localStorage.getItem('cur_path')})
         }
         //判断登录之前的地址
         // history.listen(location => {
@@ -50,22 +51,29 @@ export default {
           // }else{
             
           // }
-        }else{
-          message.error(res.message);
         }
-        
-        yield put({ type: 'save' });
+
       },
       *logout({info}, { call, put}){
         yield put({type: 'clear_menu'});
         yield call(removeAuth);
         yield put(routerRedux.push('/login'));
+      },
+      *set_cur({path}, {call, put}){
+        yield call(()=>{localStorage.setItem('cur_path', path)});
+        yield put({type: 'set_cur_model', path});
       }
     },
   
     reducers: {
       save(state, action) {
         return { ...state, ...action.payload };
+      },
+      set_cur_model(state, action){
+        return {
+          ...state,
+          cur_path: action.path
+        }
       },
       set_before(state, action){
         return { ...state, beforePath: action.path}

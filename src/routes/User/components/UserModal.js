@@ -44,7 +44,7 @@ class UserModal extends Component{
             value: info.phone
         },{
             label: '客户角色',
-            value: info.role === 1? '男': '女'
+            value: info.role === 1? '家长': '家教'
         },{
             label: '客户状态',
             value: this._levelTxt(info.level)
@@ -75,6 +75,32 @@ class UserModal extends Component{
             label: '最近登录时间',
             value: info.logintime
         }]
+
+        if(info.role === 2){
+            this.lineList = this.lineList.concat([{
+                label: '学校',
+                value: info.school
+            },{
+                label: '学历',
+                value: info.diploma
+            },{
+                label: '专业',
+                value: info.professional
+            },{
+                label: '入学情况',
+                value: info.edu_now
+            }])
+
+            this.baseList.splice(3, 0, {
+                label: '学历认证',
+                value: info.education
+            },{
+                label: '通过时间',
+                value: info.education_time
+            })
+        }
+
+
 
         this.recordCol = [{
             title: info.role === 1 ? '家教姓名': '家长姓名',

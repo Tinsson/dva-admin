@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from '../../assets/css/Exception.less'
 import { connect } from 'dva'
 import { Link } from 'dva/router'
+import { routerRedux } from 'dva/router'
 import PropTypes from 'prop-types'
 
 
@@ -26,8 +27,17 @@ class Exception404 extends Component{
 
 let mapToState = (state)=>{
     return {
-        urls: state.frame.all_urls
+        urls: state.frame.all_urls,
+        token: state.frame.token
     }
 }
 
-export default connect(mapToState)(Exception404);
+let mapToDispatch = (dispatch)=>{
+    return {
+        onRouterLink: (path) =>{
+            dispatch(routerRedux.push(path))
+        }
+    }
+}
+
+export default connect(mapToState, mapToDispatch)(Exception404);
