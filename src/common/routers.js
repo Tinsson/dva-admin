@@ -19,9 +19,17 @@ export default function allRouters(app){
             name: '课程列表',
             component: dynamicWrap(app, ['user'], () => import('../routes/User/ClassList'))
         },
+        '/user/consult': {
+            name: '课程列表',
+            component: dynamicWrap(app, ['user'], () => import('../routes/User/ConsultList'))
+        },
         '/verify/edu-list': {
             name: '学历审核列表',
             component: dynamicWrap(app, ['verify'], () => import('../routes/Verify/EduList'))
+        },
+        '/authority/auth': {
+            name: '权限列表',
+            component: dynamicWrap(app, ['authority'], () => import('../routes/Authority/AuthTree'))
         }
     };
 

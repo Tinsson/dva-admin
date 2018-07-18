@@ -44,7 +44,7 @@ class UserModal extends Component{
             value: info.phone
         },{
             label: '客户角色',
-            value: info.role === 1? '家长': '家教'
+            value: this.props.role === 1? '家长': '家教'
         },{
             label: '客户状态',
             value: this._levelTxt(info.level)
@@ -76,7 +76,7 @@ class UserModal extends Component{
             value: info.logintime
         }]
 
-        if(info.role === 2){
+        if(this.props.role === 2){
             this.lineList = this.lineList.concat([{
                 label: '学校',
                 value: info.school
@@ -103,8 +103,8 @@ class UserModal extends Component{
 
 
         this.recordCol = [{
-            title: info.role === 1 ? '家教姓名': '家长姓名',
-            dataIndex: info.role === 1 ? 'tutor_name': 'learn_name'
+            title: this.props.role === 1 ? '家教姓名': '家长姓名',
+            dataIndex: this.props.role === 1 ? 'tutor_name': 'learn_name'
         },{
             title: '预付款总课时',
             dataIndex: 'class_hour'
@@ -117,7 +117,7 @@ class UserModal extends Component{
             <Row type="flex" align="middle" justify="space-between">
                 <Col span={12}></Col>
                 <Col span={12}>
-                    <Button type="default" onClick={this.handleRefresh.bind(this, info.id, info.role)}>刷新</Button>
+                    <Button type="default" onClick={this.handleRefresh.bind(this, info.id, this.props.role)}>刷新</Button>
                 </Col>
             </Row>
         );
@@ -149,7 +149,7 @@ class UserModal extends Component{
                                         </div>
                                     </div>
                                 </TabPane>
-                                <TabPane tab={info.role === 1?'购买记录':'预付款记录'} key="2">
+                                <TabPane tab={this.props.role === 1?'购买记录':'预付款记录'} key="2">
                                     <div className={styles.tabBox}>
                                         <Table size="small" rowKey="uid" pagination={false} columns={this.recordCol} dataSource={info.order_list}/>
                                     </div>

@@ -43,7 +43,6 @@ let mapToState = (state)=>{
 let mapToDispatch = (dispatch) => {
     return {
         onSetCurPath: (path)=>{
-            console.log(path);
             dispatch({type: 'frame/set_cur', path})
         }
     }

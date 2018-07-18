@@ -28,3 +28,10 @@ export function ClassList(params){
         body: params
     });
 }
+
+export function ConsultList(params){
+    return request('/backend/op/list', {
+        method: 'GET',
+        body: params
+    })
+}

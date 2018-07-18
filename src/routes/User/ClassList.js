@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import TableCard from '../../components/TableCard'
 import FilterCard from '../../components/FilterCard'
 import { connect } from 'dva'
+import { Modal } from 'antd'
+import styles from './ParentList.less'
 
 
 const filter = [{
@@ -27,8 +29,14 @@ class ClassList extends Component{
     constructor(props){
         super();
         this.state = {
-            page: initPage,
-            size: initSize
+            pagination: {
+                page: initPage,
+                size: initSize
+            },
+            feedback: {
+                visible: false,
+                content: ''
+            }
         }
 
         this.columns = [{
@@ -52,25 +60,51 @@ class ClassList extends Component{
         },{
             title: '剩余课时',
             dataIndex: 'free_hour'
+        },{
+            title: '课程反馈',
+            dataIndex: 'remark',
+            render: (text) => {
+                return (<span className={styles.tableAction} onClick={this.handleCheck.bind(this,text)}>查看</span>)
+            }
         }]
     }
 
     componentDidMount(){
         this.props.getData({
-            page: this.state.page,
-            size: this.state.size
+            page: this.state.pagination.page,
+            size: this.state.pagination.size
         });
         this.condition = {};
+    }
+
+    handleClose = ()=>{
+        this.setState({
+            feedback: {
+                visible: false,
+                content: ''
+            }
+        })
+    }
+
+    handleCheck(content){
+        this.setState({
+            feedback: {
+                visible: true,
+                content
+            }
+        })
     }
 
     handleFilter(condition){
         this.condition = condition;
         this.setState({
-            page: initPage,
-            size: initSize
+            pagination: {
+                page: initPage,
+                size: initSize
+            }
         },()=>{
             this.props.getData({
-                ...this.state,
+                ...this.state.pagination,
                 ...condition
             })
         })
@@ -78,11 +112,13 @@ class ClassList extends Component{
 
     handleCurrentChange(page, size){
         this.setState({
-            page,
-            size
+            pagination: {
+                page,
+                size
+            }
         },()=>{
             this.props.getData({
-                ...this.state,
+                ...this.state.pagination,
                 ...this.condition
             });
         });
@@ -96,15 +132,20 @@ class ClassList extends Component{
             loading: this.props.loading,
             dataSource: this.props.classList,
             pagination: {
-                current: this.state.page,
+                current: this.state.pagination.page,
                 total: this.props.total,
-                pageSize: this.state.size,
+                pageSize: this.state.pagination.size,
                 onChange: this.handleCurrentChange.bind(this)
             }
         }
 
+        let feedback = this.state.feedback;
+
         return (
             <div>
+                <Modal title="课程反馈" visible={feedback.visible} onCancel={this.handleClose}>
+                    <p>{feedback.content}</p>
+                </Modal>
                 <FilterCard filterList={filter} onFilter={this.handleFilter.bind(this)}/>
                 <TableCard  tableData={tableData} />
             </div>
