@@ -13,3 +13,10 @@ export function PermissionEdit(params){
         body: params
     })
 }
+
+export function AdminList(params){
+    return request('/backend/admin/list', {
+        method: 'GET',
+        body: params
+    })
+}

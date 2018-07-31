@@ -1,4 +1,4 @@
-import { PermissionList,PermissionEdit } from '../services/authority'
+import { PermissionList, PermissionEdit, AdminList } from '../services/authority'
 import { message } from 'antd'
 
 export default {
@@ -14,6 +14,9 @@ export default {
             display_name: '',
             name: '',
             show: ''
+        },
+        admin: {
+            list: []
         }
     },
   
@@ -27,6 +30,10 @@ export default {
         message.success(res.message);
         yield put({type: 'permissionFetch'});
         yield put({type: 'close_auth_modal'});
+      },
+      *adminFetch({data}, {call, put}){
+        const res = yield call(AdminList);
+        yield put({type: 'set_admin', list: res.data.list})
       }
     },
   
@@ -55,6 +62,14 @@ export default {
             auth: {
                 ...state.auth,
                 modal_visible: false
+            }
+        }
+      },
+      set_admin(state, action){
+        return {
+            ...state,
+            admin: {
+                list: action.list
             }
         }
       }

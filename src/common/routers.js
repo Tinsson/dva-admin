@@ -30,6 +30,10 @@ export default function allRouters(app){
         '/authority/auth': {
             name: '权限列表',
             component: dynamicWrap(app, ['authority'], () => import('../routes/Authority/AuthTree'))
+        },
+        '/authority/admin': {
+            name: '账户列表',
+            component: dynamicWrap(app, ['authority'], () => import('../routes/Authority/AdminList'))
         }
     };
 
